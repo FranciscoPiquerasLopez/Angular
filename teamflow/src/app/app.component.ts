@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [],
-  template: '<h1>Hola, prueba de estructura</h1>',
+  imports: [RouterOutlet],
+  template: `
+    <router-outlet></router-outlet>
+  `,
 })
 export class AppComponent {
   protected title = 'TeamFlow';

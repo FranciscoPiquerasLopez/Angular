@@ -1,1 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+/* Estilos globales */
+
+/* Autohospedar la fuente ---> Mejor rendimiento al cargar fuentes */
+@font-face {
+    font-family: "Montserrat";
+    src: url('./fonts/Montserrat.woff2');
+    font-weight: 400, 800;
+    font-display: swap; /* Evita pantallas en blanco */
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
+    padding: 0 auto;
+    margin: 0 auto;
+    min-height: 100vh;
+}

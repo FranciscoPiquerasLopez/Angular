@@ -5,4 +5,6 @@ import { Component } from "@angular/core";
     templateUrl: './register.template.html',
     styleUrl: './register.styles.css',
 })
-export class RegisterComponent { }
+export class RegisterComponent {
+    rightPanelActive = true;
+}

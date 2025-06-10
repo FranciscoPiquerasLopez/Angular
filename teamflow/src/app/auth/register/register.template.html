@@ -23,21 +23,54 @@
             </div>
         </div>
         <div class="form-container sign-up-container">
-            <form action="#">
+            <form [formGroup]="signUpForm" (ngSubmit)="onSubmitSignUpForm()">
                 <h1 class="form__title">Crear cuenta</h1>
-                <input type="text" placeholder="Nombre">
-                <input type="text" placeholder="Apellidos">
-                <input type="text" placeholder="Correo">
-                <input type="text" placeholder="Contraseña">
+                @for (errorMessage of getErrorSignUpFormMessage('name'); track $index) {
+                <div class="alert">
+                    {{errorMessage}}
+                </div>
+                }
+                <input id="nameSignUp" name="nameSignUp" type="text" placeholder="Nombre" formControlName="name">
+                @for (errorMessage of getErrorSignUpFormMessage('surnames'); track $index) {
+                <div class="alert">
+                    {{errorMessage}}
+                </div>
+                }
+                <input id="surnamesSignUp" name="surnamesSignUp" type="text" placeholder="Apellidos"
+                    formControlName="surnames">
+                @for (errorMessage of getErrorSignUpFormMessage('email'); track $index) {
+                <div class="alert">
+                    {{errorMessage}}
+                </div>
+                }
+                <input id="emailSignUp" name="emailSignUp" type="text" placeholder="Correo" formControlName="email">
+                @for (errorMessage of getErrorSignUpFormMessage('password'); track $index) {
+                <div class="alert">
+                    {{errorMessage}}
+                </div>
+                }
+                <input id="passwordSignUp" name="passwordSignUp" type="password" placeholder="Contraseña"
+                    formControlName="password">
                 <button>Crear cuenta</button>
             </form>
         </div>
         <div class="form-container sign-in-container">
-            <form action="#">
+            <form [formGroup]="signInForm" (ngSubmit)="onSubmitSignInForm()">
                 <h1 class="form__title">Iniciar sesión</h1>
-                <input type="text" placeholder="Correo">
-                <input type="text" placeholder="Contraseña">
-                <button>Iniciar sesión</button>
+                @for (errorMessage of getErrorSignInFormMessage('email'); track $index) {
+                <div class="alert">
+                    {{errorMessage}}
+                </div>
+                }
+                <input id="emailSignIn" name="emailSignIn" type="text" placeholder="Correo" formControlName="email">
+                @for (errorMessage of getErrorSignInFormMessage('password'); track $index) {
+                <div class="alert">
+                    {{errorMessage}}
+                </div>
+                }
+                <input id="passwordSignIn" name="passwordSignIn" type="password" placeholder="Contraseña"
+                    formControlName="password">
+                <button type="submit">Iniciar sesión</button>
             </form>
         </div>
     </div>

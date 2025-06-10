@@ -125,6 +125,12 @@
     -webkit-text-stroke: .5px #000;
 }
 
+.alert {
+    color: #bd2549;
+    font-weight: 600;
+    font-size: 15px;
+}
+
 form {
     display: flex;
     flex-direction: column;
@@ -169,5 +175,5 @@ button:hover {
 }
 
 h1 {
-    margin: 10px 0;
+    margin: 15px 0;
 }

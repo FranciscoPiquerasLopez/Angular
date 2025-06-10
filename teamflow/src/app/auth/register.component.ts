@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { FormGroup, FormControl, ReactiveFormsModule } from "@angular/forms";
-import { emailValidator, nameValidator, passwordValidator, surnamesValidator } from "../../../common/validatorFormControls";
-import { validationMessagesSignInForm, validationMessagesSignUpForm } from "../../../common/dictionaryErrorForms";
+import { emailValidator, nameValidator, passwordValidator, surnamesValidator } from "../../common/validatorFormControls";
+import { validationMessagesSignInForm, validationMessagesSignUpForm } from "../../common/dictionaryErrorForms";
 
 @Component({
     selector: 'auth-register',
@@ -12,12 +12,11 @@ import { validationMessagesSignInForm, validationMessagesSignUpForm } from "../.
     styleUrl: './register.styles.css',
 })
 export class RegisterComponent {
-    // Para cambiar la vista de los overlays y pasar al modo de inicio de sesión
-    // o de registro de nueva cuenta
+    // Indica si el panel del formulario HTML está activo y así
+    // cambiar a vista de inicio de sesión o de creación de cuenta
     rightPanelActive = true;
 
-    // FormGroup para agrupar varias instancias de control de formulario
-    // FormControl para hacer instancias individuales de campos específicos de HTML
+    // Grupo de formulario con los controles de registro
     signUpForm = new FormGroup({
         name: new FormControl('', nameValidator),
         surnames: new FormControl('', surnamesValidator),
@@ -25,11 +24,14 @@ export class RegisterComponent {
         password: new FormControl('', passwordValidator),
     });
 
+    // Grupo de formulario con los controles de inicio de sesión
     signInForm = new FormGroup({
         email: new FormControl('', emailValidator),
         password: new FormControl('', passwordValidator),
     });
 
+    // Detectar si hay errores en campos del formulario de registro
+    // y así mostrarlos en el HTML
     getErrorSignInFormMessage(controlName: string): string[] {
         const errors = this.signInForm.get(controlName)?.errors;
         if (!errors) {
@@ -40,6 +42,8 @@ export class RegisterComponent {
         return arrayErrors;
     };
 
+    // Detectar si hay errores en campos del formulario de inicio de sesión
+    // y así mostrarlos en el HTML
     getErrorSignUpFormMessage(controlName: string): string[] {
         const errors = this.signUpForm.get(controlName)?.errors;
         if (!errors) {
@@ -50,19 +54,21 @@ export class RegisterComponent {
         return arrayErrors;
     };
 
+    // Enviar el formulario de registro
     onSubmitSignInForm() {
         if (this.signInForm.valid) {
             // Objeto con los campos del formulario de inicio de sesión
             const signInObject = this.signInForm.value;
-            console.log(`Inicio de sesión: ${JSON.stringify(signInObject)}`);
+            // TODO: HTTP para endpoint de login de usuario
         }
     };
 
+    // Enviar el formulario de inicio de sesión
     onSubmitSignUpForm() {
         if (this.signUpForm.valid) {
             // Objeto con los campos del formulario de registro
             const signUpFormObject = this.signUpForm.value;
-            console.log(`Registro: ${JSON.stringify(signUpFormObject)}`);
+            
         }
     };
 }

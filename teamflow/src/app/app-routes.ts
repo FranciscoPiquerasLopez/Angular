@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 import { AppComponent } from "./app.component";
-import { RegisterComponent } from "./auth/register/register.component";
+import { RegisterComponent } from "./auth/register.component";
 
 const routeConfig: Routes = [
     {

@@ -54,6 +54,7 @@ export class RegisterComponent {
         if (this.signInForm.valid) {
             // Objeto con los campos del formulario de inicio de sesión
             const signInObject = this.signInForm.value;
+            console.log(`Inicio de sesión: ${JSON.stringify(signInObject)}`);
         }
     };
 
@@ -61,6 +62,7 @@ export class RegisterComponent {
         if (this.signUpForm.valid) {
             // Objeto con los campos del formulario de registro
             const signUpFormObject = this.signUpForm.value;
+            console.log(`Registro: ${JSON.stringify(signUpFormObject)}`);
         }
     };
 }

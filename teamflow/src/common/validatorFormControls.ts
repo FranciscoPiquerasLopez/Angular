@@ -30,7 +30,7 @@ function validatePassword(): ValidatorFn {
         const hasUpper = /A-Z/.test(password);
         const hasLower = /a-z/.test(password);
         const hasNumber = /0-9/.test(password);
-        const hasSymbol = /[\W_]/.test(password); // Cualquier caracter no alfanumérico
+        const hasSymbol = /(?=.*[!@#$%^&*])/.test(password); // TODO: Hecharle un vistazo
         const valid = hasUpper && hasLower && hasNumber && hasSymbol;
         return valid
             ? null

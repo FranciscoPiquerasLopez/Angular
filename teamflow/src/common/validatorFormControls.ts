@@ -27,10 +27,10 @@ function validatePassword(): ValidatorFn {
             return null; // Si está vacío, devolvemos null
         }
         // Validaciones para una contraseña
-        const hasUpper = /A-Z/.test(password);
-        const hasLower = /a-z/.test(password);
-        const hasNumber = /0-9/.test(password);
-        const hasSymbol = /(?=.*[!@#$%^&*])/.test(password); // TODO: Hecharle un vistazo
+        const hasUpper = /[A-Z]/.test(password);
+        const hasLower = /[a-z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
         const valid = hasUpper && hasLower && hasNumber && hasSymbol;
         return valid
             ? null

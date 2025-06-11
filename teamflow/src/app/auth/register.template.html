@@ -2,6 +2,11 @@
     <h1>
         Bienvenido a TeamFlow
     </h1>
+    @if (errorRegisterPost !== '') {
+    <div class="errorAuth">{{errorRegisterPost}}</div>
+    } @else if (validRegisterPost !== '') {
+    <div class="validAuth">{{validRegisterPost}}</div>
+    }
     <div class="overlay-form-container">
         <div class="overlay-container">
             <div class="overlay">
@@ -25,51 +30,54 @@
         <div class="form-container sign-up-container">
             <form [formGroup]="signUpForm" (ngSubmit)="onSubmitSignUpForm()">
                 <h1 class="form__title">Crear cuenta</h1>
-                @for (errorMessage of getErrorSignUpFormMessage('name'); track $index) {
+                @for (errorMessage of getErrorSignUpFormMessage('nombre_usuario'); track $index) {
                 <div class="alert">
                     {{errorMessage}}
                 </div>
                 }
-                <input id="nameSignUp" name="nameSignUp" type="text" placeholder="Nombre" formControlName="name">
-                @for (errorMessage of getErrorSignUpFormMessage('surnames'); track $index) {
+                <input id="nameSignUp" name="nameSignUp" type="text" placeholder="Nombre"
+                    formControlName="nombre_usuario">
+                @for (errorMessage of getErrorSignUpFormMessage('apellidos_usuario'); track $index) {
                 <div class="alert">
                     {{errorMessage}}
                 </div>
                 }
                 <input id="surnamesSignUp" name="surnamesSignUp" type="text" placeholder="Apellidos"
-                    formControlName="surnames">
-                @for (errorMessage of getErrorSignUpFormMessage('email'); track $index) {
+                    formControlName="apellidos_usuario">
+                @for (errorMessage of getErrorSignUpFormMessage('correo_usuario'); track $index) {
                 <div class="alert">
                     {{errorMessage}}
                 </div>
                 }
-                <input id="emailSignUp" name="emailSignUp" type="text" placeholder="Correo" formControlName="email">
-                @for (errorMessage of getErrorSignUpFormMessage('password'); track $index) {
+                <input id="emailSignUp" name="emailSignUp" type="text" placeholder="Correo"
+                    formControlName="correo_usuario">
+                @for (errorMessage of getErrorSignUpFormMessage('contraseña_usuario'); track $index) {
                 <div class="alert">
                     {{errorMessage}}
                 </div>
                 }
                 <input id="passwordSignUp" name="passwordSignUp" type="password" placeholder="Contraseña"
-                    formControlName="password">
+                    formControlName="contraseña_usuario">
                 <button>Crear cuenta</button>
             </form>
         </div>
         <div class="form-container sign-in-container">
             <form [formGroup]="signInForm" (ngSubmit)="onSubmitSignInForm()">
                 <h1 class="form__title">Iniciar sesión</h1>
-                @for (errorMessage of getErrorSignInFormMessage('email'); track $index) {
+                @for (errorMessage of getErrorSignInFormMessage('correo_usuario'); track $index) {
                 <div class="alert">
                     {{errorMessage}}
                 </div>
                 }
-                <input id="emailSignIn" name="emailSignIn" type="text" placeholder="Correo" formControlName="email">
-                @for (errorMessage of getErrorSignInFormMessage('password'); track $index) {
+                <input id="emailSignIn" name="emailSignIn" type="text" placeholder="Correo"
+                    formControlName="correo_usuario">
+                @for (errorMessage of getErrorSignInFormMessage('contraseña_usuario'); track $index) {
                 <div class="alert">
                     {{errorMessage}}
                 </div>
                 }
                 <input id="passwordSignIn" name="passwordSignIn" type="password" placeholder="Contraseña"
-                    formControlName="password">
+                    formControlName="contraseña_usuario">
                 <button type="submit">Iniciar sesión</button>
             </form>
         </div>

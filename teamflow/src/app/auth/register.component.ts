@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { FormGroup, FormControl, ReactiveFormsModule } from "@angular/forms";
 import { emailValidator, nameValidator, passwordValidator, surnamesValidator } from "../../common/validatorFormControls";
 import { validationMessagesSignInForm, validationMessagesSignUpForm } from "../../common/dictionaryErrorForms";
+import { HttpService } from "./services/auth.service";
 
 @Component({
     selector: 'auth-register',
@@ -12,6 +13,8 @@ import { validationMessagesSignInForm, validationMessagesSignUpForm } from "../.
     styleUrl: './register.styles.css',
 })
 export class RegisterComponent {
+    constructor(private authService: HttpService) {}
+
     // Indica si el panel del formulario HTML está activo y así
     // cambiar a vista de inicio de sesión o de creación de cuenta
     rightPanelActive = true;
@@ -66,8 +69,10 @@ export class RegisterComponent {
     // Enviar el formulario de inicio de sesión
     onSubmitSignUpForm() {
         if (this.signUpForm.valid) {
-            // Objeto con los campos del formulario de registro
+            // Extraemos valores del formulario de registro
             const signUpFormObject = this.signUpForm.value;
+            
+            // Llamamos al servicio
             
         }
     };

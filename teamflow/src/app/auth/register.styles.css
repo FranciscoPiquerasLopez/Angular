@@ -131,6 +131,18 @@
     font-size: 15px;
 }
 
+.errorAuth {
+    color: #bd2549;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+.validAuth {
+    color: rgb(44, 221, 21);
+    font-weight: 800;
+    font-size: 20px;
+}
+
 form {
     display: flex;
     flex-direction: column;

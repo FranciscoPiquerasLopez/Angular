@@ -83,6 +83,7 @@ export class RegisterComponent {
                         this.validRegisterPost = '¡Registro exitoso!';
                     },
                     error: err => {
+                        console.log(err);
                         this.errorRegisterPost = 'Error al crear una cuenta';
                     }
                 });

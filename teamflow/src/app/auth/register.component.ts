@@ -23,6 +23,7 @@ export class RegisterComponent {
     registerOk: string = '';
     registerError: string = '';
     loginError: string = '';
+    loginOk: string = '';
 
     // Grupo de formulario con los controles de registro
     signUpForm = new FormGroup({
@@ -70,12 +71,9 @@ export class RegisterComponent {
 
             // Llamamos al servicio
             this.authService.iniciarSesion(signInObject)
-                .subscribe((token) => {
-                    if (token === 'Error') {
-                        this.loginError = 'Error de inicio de sesión';
-                    } else {
-                        console.log();
-                    }
+                .subscribe({
+                    next: response => this.loginOk = response.message,
+                    error: err => this.loginError = err,
                 });
         }
     };
@@ -88,12 +86,9 @@ export class RegisterComponent {
 
             // Llamamos al servicio
             this.authService.registrarUsuario(signUpFormObject)
-                .subscribe(registro => {
-                    if (registro === 'Error') {
-                        this.registerError = 'Error de registro';
-                    } else {
-                        this.registerOk = registro;
-                    }
+                .subscribe({
+                    next: response => this.registerOk = response,
+                    error: err => this.registerError = err,
                 });
         }
     };

@@ -8,6 +8,8 @@
     <div class="validAuth">{{registerOk}}</div>
     } @else if (loginError !== '') {
         <div class="errorAuth">{{loginError}}</div>
+    } @else if (loginOk !== '') {
+        <div class="validAuth">{{loginOk}}</div>
     }
     <div class="overlay-form-container">
         <div class="overlay-container">

@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { RegisterRequest } from "../interfaces/register.dto";
 import { LoginRequest, LoginResponse } from "../interfaces/login.dto";
-import { catchError, map, Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
 
 @Injectable({ providedIn: 'root' })
@@ -17,19 +17,18 @@ export class HttpService {
 
     // POST registro de nueva cuenta
     registrarUsuario(userFromRegisterForm: RegisterRequest): Observable<string> {
-        return this.http.post<string>(`${this.baseUrl}/users/register`, userFromRegisterForm)
-        .pipe(
-            map(() => '¡Registro exitoso!'),
-            catchError(() => of('Error'))
+        return this.http.post<string>(
+            `${this.baseUrl}/users/register`,
+            userFromRegisterForm
         );
     };
 
     // POST de inicio de sesión
-    iniciarSesion(userFromLoginForm: LoginRequest): Observable<string> {
-        return this.http.post<string>(`${this.baseUrl}/users/login`, userFromLoginForm)
-        .pipe(
-            map((token) => token),
-            catchError(() => of('Error'))
-        );
+    iniciarSesion(userFromLoginForm: LoginRequest): Observable<LoginResponse> {
+        return this.http.post<LoginResponse>(
+            `${this.baseUrl}/users/login`,
+            userFromLoginForm,
+            { withCredentials: true }
+        )
     };
 };

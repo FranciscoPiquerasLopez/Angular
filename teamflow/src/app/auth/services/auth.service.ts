@@ -20,12 +20,16 @@ export class HttpService {
         return this.http.post<string>(`${this.baseUrl}/users/register`, userFromRegisterForm)
         .pipe(
             map(() => '¡Registro exitoso!'),
-            catchError(() => of('Error de registro'))
+            catchError(() => of('Error'))
         );
     };
 
     // POST de inicio de sesión
-    iniciarSesion(userFromLoginForm: LoginRequest) {
-        return this.http.post<LoginResponse>(`${this.baseUrl}/users/login`, userFromLoginForm);
+    iniciarSesion(userFromLoginForm: LoginRequest): Observable<string> {
+        return this.http.post<string>(`${this.baseUrl}/users/login`, userFromLoginForm)
+        .pipe(
+            map((token) => token),
+            catchError(() => of('Error'))
+        );
     };
 };

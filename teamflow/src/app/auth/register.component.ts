@@ -20,9 +20,9 @@ export class RegisterComponent {
     // Indica si el panel del formulario HTML está activo y así
     // cambiar a vista de inicio de sesión o de creación de cuenta
     rightPanelActive: boolean = true;
-    responseRegisterPost: string = '';
-    errorLoginPost: string = '';
-    validLoginPost: string = '';
+    registerOk: string = '';
+    registerError: string = '';
+    loginError: string = '';
 
     // Grupo de formulario con los controles de registro
     signUpForm = new FormGroup({
@@ -67,19 +67,16 @@ export class RegisterComponent {
         if (this.signInForm.valid) {
             // Objeto con los campos del formulario de inicio de sesión
             const signInObject = this.signInForm.value as LoginRequest;
-            
+
             // Llamamos al servicio
             this.authService.iniciarSesion(signInObject)
-                .subscribe({
-                    next: value => {
-                        // TODO: Terminarlo
-                        console.log(value);
-                    },
-                    error: err => {
-                        // TODO: Terminarlo
-                        console.log(err);
+                .subscribe((token) => {
+                    if (token === 'Error') {
+                        this.loginError = 'Error de inicio de sesión';
+                    } else {
+
                     }
-                })
+                });
         }
     };
 
@@ -91,8 +88,12 @@ export class RegisterComponent {
 
             // Llamamos al servicio
             this.authService.registrarUsuario(signUpFormObject)
-                .subscribe(mensaje => {
-                    this.responseRegisterPost = mensaje;
+                .subscribe(registro => {
+                    if (registro === 'Error') {
+                        this.registerError = 'Error de registro';
+                    } else {
+                        this.registerOk = registro;
+                    }
                 });
         }
     };

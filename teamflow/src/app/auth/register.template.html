@@ -6,6 +6,8 @@
     <div class="errorAuth">{{registerError}}</div>
     } @else if (registerOk !== '') {
     <div class="validAuth">{{registerOk}}</div>
+    } @else if (loginError !== '') {
+        <div class="errorAuth">{{loginError}}</div>
     }
     <div class="overlay-form-container">
         <div class="overlay-container">

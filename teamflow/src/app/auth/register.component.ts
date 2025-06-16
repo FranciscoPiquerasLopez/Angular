@@ -74,7 +74,7 @@ export class RegisterComponent {
                     if (token === 'Error') {
                         this.loginError = 'Error de inicio de sesión';
                     } else {
-
+                        console.log();
                     }
                 });
         }

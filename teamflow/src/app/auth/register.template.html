@@ -2,10 +2,14 @@
     <h1>
         Bienvenido a TeamFlow
     </h1>
-    @if (errorRegisterPost !== '') {
-    <div class="errorAuth">{{errorRegisterPost}}</div>
-    } @else if (validRegisterPost !== '') {
-    <div class="validAuth">{{validRegisterPost}}</div>
+    @if (registerError !== '') {
+    <div class="errorAuth">{{registerError}}</div>
+    } @else if (registerOk !== '') {
+    <div class="validAuth">{{registerOk}}</div>
+    } @else if (loginError !== '') {
+        <div class="errorAuth">{{loginError}}</div>
+    } @else if (loginOk !== '') {
+        <div class="validAuth">{{loginOk}}</div>
     }
     <div class="overlay-form-container">
         <div class="overlay-container">

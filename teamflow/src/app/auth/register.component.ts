@@ -20,10 +20,10 @@ export class RegisterComponent {
     // Indica si el panel del formulario HTML está activo y así
     // cambiar a vista de inicio de sesión o de creación de cuenta
     rightPanelActive: boolean = true;
-    errorRegisterPost: string = '';
-    errorLoginPost: string = '';
-    validRegisterPost: string = '';
-    validLoginPost: string = '';
+    registerOk: string = '';
+    registerError: string = '';
+    loginError: string = '';
+    loginOk: string = '';
 
     // Grupo de formulario con los controles de registro
     signUpForm = new FormGroup({
@@ -68,19 +68,13 @@ export class RegisterComponent {
         if (this.signInForm.valid) {
             // Objeto con los campos del formulario de inicio de sesión
             const signInObject = this.signInForm.value as LoginRequest;
-            
+
             // Llamamos al servicio
             this.authService.iniciarSesion(signInObject)
                 .subscribe({
-                    next: value => {
-                        // TODO: Terminarlo
-                        console.log(value);
-                    },
-                    error: err => {
-                        // TODO: Terminarlo
-                        console.log(err);
-                    }
-                })
+                    next: response => this.loginOk = response.message,
+                    error: err => this.loginError = err,
+                });
         }
     };
 
@@ -93,13 +87,8 @@ export class RegisterComponent {
             // Llamamos al servicio
             this.authService.registrarUsuario(signUpFormObject)
                 .subscribe({
-                    next: value => {
-                        this.validRegisterPost = '¡Registro exitoso!';
-                    },
-                    error: err => {
-                        console.log(err);
-                        this.errorRegisterPost = 'Error al crear una cuenta';
-                    }
+                    next: response => this.registerOk = response,
+                    error: err => this.registerError = err,
                 });
         }
     };

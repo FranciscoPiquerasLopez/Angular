@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { RegisterRequest, RegisterResponse } from "../interfaces/register.dto";
-import { LoginRequest, LoginResponse } from "../interfaces/login.dto";
+import { RegisterRequest, RegisterResponse } from "../app/auth/interfaces/register.dto";
+import { LoginRequest, LoginResponse } from "../app/auth/interfaces/login.dto";
 import { Observable } from "rxjs";
-import { environment } from "../../../environments/environment";
+import { environment } from "../environments/environment";
 
 @Injectable({ providedIn: 'root' })
 export class HttpService {

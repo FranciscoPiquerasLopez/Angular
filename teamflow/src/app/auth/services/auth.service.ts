@@ -1,12 +1,16 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { RegisterRequest, RegisterResponse } from "../interfaces/register.dto";
-import { Observable } from "rxjs";
 import { LoginRequest, LoginResponse } from "../interfaces/login.dto";
+import { Observable } from "rxjs";
+import { environment } from "../../../environments/environment";
 
 @Injectable({ providedIn: 'root' })
 export class HttpService {
-    private baseUrl = `http://localhost:3000`;
+    // Obtengo la URL de la API usando environment.ts
+    // que es la forma oficial de Angular para
+    // usar variables de entorno declaradas en la APP
+    private baseUrl = environment.apiBaseUrl;
 
     // Constructor para instanciar el servicio HttpClient
     constructor(private http: HttpClient) { };

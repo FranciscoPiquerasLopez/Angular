@@ -73,7 +73,7 @@ export class RegisterComponent {
             this.authService.iniciarSesion(signInObject)
                 .subscribe({
                     next: response => this.loginOk = response.message,
-                    error: err => this.loginError = err,
+                    error: err => this.loginError = 'Error de inicio de sesión',
                 });
         }
     };
@@ -87,8 +87,8 @@ export class RegisterComponent {
             // Llamamos al servicio
             this.authService.registrarUsuario(signUpFormObject)
                 .subscribe({
-                    next: response => this.registerOk = response,
-                    error: err => this.registerError = err,
+                    next: response => this.registerOk = response.message,
+                    error: err => this.registerError = 'Error de registro',
                 });
         }
     };

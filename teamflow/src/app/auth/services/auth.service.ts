@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { RegisterRequest } from "../interfaces/register.dto";
+import { RegisterRequest, RegisterResponse } from "../interfaces/register.dto";
 import { LoginRequest, LoginResponse } from "../interfaces/login.dto";
 import { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
@@ -16,8 +16,8 @@ export class HttpService {
     constructor(private http: HttpClient) { };
 
     // POST registro de nueva cuenta
-    registrarUsuario(userFromRegisterForm: RegisterRequest): Observable<string> {
-        return this.http.post<string>(
+    registrarUsuario(userFromRegisterForm: RegisterRequest): Observable<RegisterResponse> {
+        return this.http.post<RegisterResponse>(
             `${this.baseUrl}/users/register`,
             userFromRegisterForm
         );

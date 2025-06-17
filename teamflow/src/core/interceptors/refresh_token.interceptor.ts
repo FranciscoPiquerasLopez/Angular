@@ -8,7 +8,7 @@ import {
 import { Observable } from "rxjs";
 
 @Injectable({ providedIn: 'root' })
-export class CredentialsInterceptor implements HttpInterceptor {
+export class RefreshTokenInterceptor implements HttpInterceptor {
     // intercept identifica y analiza una solicitud HTTP determinada
     intercept(
         req: HttpRequest<any>,

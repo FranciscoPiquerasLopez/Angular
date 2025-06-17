@@ -2,9 +2,10 @@ import { Component } from "@angular/core";
 import { FormGroup, FormControl, ReactiveFormsModule } from "@angular/forms";
 import { emailValidator, nameValidator, passwordValidator, surnamesValidator } from "../../common/validatorFormControls";
 import { validationMessagesSignInForm, validationMessagesSignUpForm } from "../../common/dictionaryErrorForms";
-import { HttpService } from "../../services/auth.service";
+import { AuthService } from "../../services/auth.service";
 import { RegisterRequest } from "./interfaces/register.dto";
 import { LoginRequest } from "./interfaces/login.dto";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'auth-register',
@@ -15,7 +16,10 @@ import { LoginRequest } from "./interfaces/login.dto";
     styleUrl: './register.styles.css',
 })
 export class RegisterComponent {
-    constructor(private authService: HttpService) { }
+    constructor(
+        private authService: AuthService,
+        private router: Router,
+    ) { }
 
     // Indica si el panel del formulario HTML está activo y así
     // cambiar a vista de inicio de sesión o de creación de cuenta
@@ -23,7 +27,6 @@ export class RegisterComponent {
     registerOk: string = '';
     registerError: string = '';
     loginError: string = '';
-    loginOk: string = '';
 
     // Grupo de formulario con los controles de registro
     signUpForm = new FormGroup({
@@ -72,7 +75,7 @@ export class RegisterComponent {
             // Llamamos al servicio
             this.authService.iniciarSesion(signInObject)
                 .subscribe({
-                    next: response => this.loginOk = response.message,
+                    next: response => this.router.navigate([`/dashboard`]),
                     error: err => this.loginError = 'Error de inicio de sesión',
                 });
         }

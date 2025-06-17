@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { FormGroup, FormControl, ReactiveFormsModule } from "@angular/forms";
 import { emailValidator, nameValidator, passwordValidator, surnamesValidator } from "../../common/validatorFormControls";
 import { validationMessagesSignInForm, validationMessagesSignUpForm } from "../../common/dictionaryErrorForms";
-import { HttpService } from "./services/auth.service";
+import { HttpService } from "../../services/auth.service";
 import { RegisterRequest } from "./interfaces/register.dto";
 import { LoginRequest } from "./interfaces/login.dto";
 

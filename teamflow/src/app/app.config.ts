@@ -10,10 +10,6 @@ export const appConfig: ApplicationConfig = {
         provideHttpClient(
             withInterceptorsFromDi() // -> aquí lee todos los HTTP_INTERCEPTORS
         ),
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: CredentialsInterceptor,
-            multi: true
-        }
+        { provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true },
     ]
 };

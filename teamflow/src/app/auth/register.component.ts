@@ -6,6 +6,7 @@ import { AuthService } from "../../services/auth.service";
 import { RegisterRequest } from "./interfaces/register.dto";
 import { LoginRequest } from "./interfaces/login.dto";
 import { Router } from "@angular/router";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
     selector: 'auth-register',
@@ -91,7 +92,14 @@ export class RegisterComponent {
             this.authService.registrarUsuario(signUpFormObject)
                 .subscribe({
                     next: response => this.registerOk = response.message,
-                    error: err => this.registerError = 'Error de registro',
+                    error: (err: HttpErrorResponse) => {
+                        if (err.status === 409) {
+                            this.registerError = 'Correo ya existente';
+                        } else {
+                            console.log(err);
+                            this.registerError = 'Error de registro';
+                        }
+                    },
                 });
         }
     };

@@ -2,8 +2,9 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { RegisterRequest, RegisterResponse } from "../app/auth/interfaces/register.dto";
 import { LoginRequest } from "../app/auth/interfaces/login.dto";
-import { map, Observable, tap } from "rxjs";
+import { catchError, map, Observable, of } from "rxjs";
 import { environment } from "../environments/environment";
+import { parseJwt } from "../app/utils/parseJwt";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -11,7 +12,8 @@ export class AuthService {
     // que es la forma oficial de Angular para
     // usar variables de entorno declaradas en la APP
     private baseUrl = environment.apiBaseUrl;
-    private accessToken: string | null = null;
+    private accessToken: string = "";
+    private tokenExp: number = 0;
 
     // Constructor para instanciar el servicio HttpClient
     constructor(private http: HttpClient) { };
@@ -19,39 +21,45 @@ export class AuthService {
     // POST registro de nueva cuenta
     registrarUsuario(userFromRegisterForm: RegisterRequest): Observable<RegisterResponse> {
         return this.http.post<RegisterResponse>(
-            `${this.baseUrl}/users/register`,
+            `${this.baseUrl}/auth/register`,
             userFromRegisterForm
         );
     };
 
     // POST de inicio de sesión
+    // Obtener por cookie HttpOnly refresh token
+    // Obtener access token por JSON
+    // La cookie del refresh token ya la aplica el navegador por ti
     iniciarSesion(userFromLoginForm: LoginRequest): Observable<void> {
         return this.http.post<{ accessToken: string }>(
-            `${this.baseUrl}/users/login`,
+            `${this.baseUrl}/auth/login`,
             userFromLoginForm,
-            { withCredentials: true }
         )
-        .pipe(
-            tap(response => {
-                this.setAccessToken(response.accessToken);
-            }),
-            map(() => void 0)
-        );
+            .pipe(
+                map(res => this.setAccessToken(res.accessToken)),
+                catchError(err => {
+                    throw err;
+                })
+            );
     };
 
     // Asignar el access token
     private setAccessToken(token: string) {
         this.accessToken = token;
+        // Obtener payload y guarday la fecha de expiración del jwt
+        const { exp, iat } = parseJwt(token);
+        this.tokenExp = exp * 1000;
     };
 
-    // Obtener access token
-    getToken(): string | null {
+    // Obtener un token válido
+    getValidAccessToken(): string {
+        const nowMs = Date.now();
+        const tokenParsed = parseJwt(this.accessToken);
+        const expMs = tokenParsed.iat * 1000;
+        const timeRemeaning = expMs - nowMs;
         return this.accessToken;
     };
 
-    // Cerrar sesión
-    logout() {
-        this.accessToken = null;
-        // Llamar a endpoint de logout si es necesario
-    };
+    // TODO: Cerrar sesión
+
 };

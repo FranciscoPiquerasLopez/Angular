@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { RegisterRequest, RegisterResponse } from "../app/auth/interfaces/register.dto";
 import { LoginRequest } from "../app/auth/interfaces/login.dto";
-import { catchError, map, Observable, of } from "rxjs";
+import { catchError, map, Observable } from "rxjs";
 import { environment } from "../environments/environment";
 import { parseJwt } from "../app/utils/parseJwt";
 
@@ -34,6 +34,7 @@ export class AuthService {
         return this.http.post<{ accessToken: string }>(
             `${this.baseUrl}/auth/login`,
             userFromLoginForm,
+            { withCredentials: true }
         )
             .pipe(
                 map(res => this.setAccessToken(res.accessToken)),
@@ -42,6 +43,13 @@ export class AuthService {
                 })
             );
     };
+
+    refreshTokenPeticion() {
+        return this.http.get(`${this.baseUrl}/auth/refresh`, { withCredentials: true })
+            .subscribe(value => {
+                console.log(value);
+            })
+    }
 
     // Asignar el access token
     private setAccessToken(token: string) {

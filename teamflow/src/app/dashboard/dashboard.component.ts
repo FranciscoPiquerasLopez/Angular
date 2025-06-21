@@ -7,8 +7,9 @@ import { AuthService } from "../../services/auth.service";
     styleUrl: './dashboard.styles.css',
 })
 export class DashboardComponent {
-    token = "";
-    constructor(private auth: AuthService) {
-        this.token = this.auth.getValidAccessToken();
+    constructor(private auth: AuthService) {}
+
+    refreshToken() {
+        this.auth.refreshTokenPeticion();
     }
 };

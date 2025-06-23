@@ -10,6 +10,6 @@ export class DashboardComponent {
     constructor(private auth: AuthService) {}
 
     refreshToken() {
-        this.auth.refreshTokenPeticion();
+        // this.auth.refreshTokenPeticion();
     }
 };

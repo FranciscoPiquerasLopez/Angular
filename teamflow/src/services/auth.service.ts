@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { RegisterRequest, RegisterResponse } from "../app/auth/interfaces/register.dto";
 import { LoginRequest } from "../app/auth/interfaces/login.dto";
-import { catchError, map, Observable } from "rxjs";
+import { catchError, map, Observable, of, throwError } from "rxjs";
 import { environment } from "../environments/environment";
 import { parseJwt } from "../app/utils/parseJwt";
 
@@ -12,8 +12,8 @@ export class AuthService {
     // que es la forma oficial de Angular para
     // usar variables de entorno declaradas en la APP
     private baseUrl = environment.apiBaseUrl;
-    private accessToken: string = "";
-    private tokenExp: number = 0;
+    private accessToken: string | null = null;
+    private tokenExpMs: number = 0;
 
     // Constructor para instanciar el servicio HttpClient
     constructor(private http: HttpClient) { };
@@ -44,30 +44,49 @@ export class AuthService {
             );
     };
 
-    refreshTokenPeticion() {
-        return this.http.get(`${this.baseUrl}/auth/refresh`, { withCredentials: true })
-            .subscribe(value => {
-                console.log(value);
-            })
-    }
+    // Obtener un token válido
+    getValidAccessToken(): Observable<string> {
+        if (this.accessToken !== null) { // Access Token en memoria
+            const nowMs = Date.now();
+            const timeRemeaningInMiliseconds = this.tokenExpMs - nowMs;
+            if (timeRemeaningInMiliseconds <= 0) { // El token ha expirado
+                return this.http.get<string>(`${this.baseUrl}/auth/refresh`)
+                    .pipe(
+                        map(accessToken => { // ✅ Devolvemos access token si no hay errores
+                            return accessToken;
+                        }),
+                        catchError(err => { // ❌ Devolvemos error al interceptor
+                            // Convertimos cualquier error HTTP o de map en un error RxJS
+                            return throwError(() => err);
+                        })
+                    )
+            } else { // El token no ha expirado, devolvemos el mismo
+                return of(this.accessToken);
+            }
+        } else { // Access Token no está en memoria
+            return this.http.get<string>(`${this.baseUrl}/auth/refresh`)
+                .pipe(
+                    map(accessToken => { // ✅ Devolvemos access token si no hay errores
+                        return accessToken;
+                    }),
+                    catchError(err => { // ❌ Devolvemos error al interceptor
+                        // Convertimos cualquier error HTTP o de map en un error RxJS
+                        return throwError(() => err);
+                    })
+                )
+        }
+    };
 
-    // Asignar el access token
+    // Asignar el access token + parsear su contenido
     private setAccessToken(token: string) {
         this.accessToken = token;
-        // Obtener payload y guarday la fecha de expiración del jwt
-        const { exp, iat } = parseJwt(token);
-        this.tokenExp = exp * 1000;
+        // Parsear payload del token y guardar la fecha de expiración del token en milisegundos
+        const { exp } = parseJwt(token);
+        this.tokenExpMs = exp * 1000;
     };
 
-    // Obtener un token válido
-    getValidAccessToken(): string {
-        const nowMs = Date.now();
-        const tokenParsed = parseJwt(this.accessToken);
-        const expMs = tokenParsed.iat * 1000;
-        const timeRemeaning = expMs - nowMs;
-        return this.accessToken;
+    logout() { // Cerrar sesión
+        this.accessToken = null;
     };
-
-    // TODO: Cerrar sesión
 
 };

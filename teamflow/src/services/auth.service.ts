@@ -19,7 +19,7 @@ export class AuthService {
     constructor(private http: HttpClient) { };
 
     // POST registro de nueva cuenta
-    registrarUsuario(userFromRegisterForm: RegisterRequest): Observable<RegisterResponse> {
+    registerUser(userFromRegisterForm: RegisterRequest): Observable<RegisterResponse> {
         return this.http.post<RegisterResponse>(
             `${this.baseUrl}/auth/register`,
             userFromRegisterForm
@@ -30,7 +30,7 @@ export class AuthService {
     // Obtener por cookie HttpOnly refresh token
     // Obtener access token por JSON
     // La cookie del refresh token ya la aplica el navegador por ti
-    iniciarSesion(userFromLoginForm: LoginRequest): Observable<void> {
+    loginUser(userFromLoginForm: LoginRequest): Observable<void> {
         return this.http.post<{ accessToken: string }>(
             `${this.baseUrl}/auth/login`,
             userFromLoginForm,

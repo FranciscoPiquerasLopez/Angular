@@ -7,22 +7,31 @@ import { Router } from "@angular/router";
 
 @Injectable({ providedIn: 'root' })
 export class AccessTokenInterceptor implements HttpInterceptor {
+    private skipUrls = [
+        'auth/login',
+        'auth/register',
+    ];
     constructor(private auth: AuthService, private router: Router) { }
 
      intercept(
         req: HttpRequest<any>,
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
+        // Obviamos el login y el register
+        // Hay no tenemos el access_token aún
+        if (this.skipUrls.some(url => req.url.includes(url))) {
+            return next.handle(req);
+        }
         return this.auth.getValidAccessToken().pipe(
-            switchMap(token => { // ✅ Access Token válido, porque hay refresh
+            switchMap(token => { // ✅ Recuperamos access token
                 const modifiedReq = req.clone({
                     setHeaders: { Authorization: `Bearer ${token}` }
                 });
                 return next.handle(modifiedReq);
             }),
-            catchError(err => { // ❌ Access Token inválido, porque no hay refresh
+            catchError(err => { // ❌ access token inválido
                 this.auth.logout();
-                this.router.navigate(['/login']);
+                this.router.navigate(['/register']);
                 return throwError(() => err);
             })
         )

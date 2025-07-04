@@ -72,9 +72,8 @@ export class RegisterComponent {
         if (this.signInForm.valid) {
             // Objeto con los campos del formulario de inicio de sesión
             const signInObject = this.signInForm.value as LoginRequest;
-
             // Llamamos al servicio
-            this.authService.iniciarSesion(signInObject)
+            this.authService.loginUser(signInObject)
                 .subscribe({
                     next: response => this.router.navigate([`/dashboard`]),
                     error: err => this.loginError = 'Error de inicio de sesión',
@@ -89,7 +88,7 @@ export class RegisterComponent {
             const signUpFormObject = this.signUpForm.value as RegisterRequest;
 
             // Llamamos al servicio
-            this.authService.registrarUsuario(signUpFormObject)
+            this.authService.registerUser(signUpFormObject)
                 .subscribe({
                     next: response => this.registerOk = response.message,
                     error: (err: HttpErrorResponse) => {

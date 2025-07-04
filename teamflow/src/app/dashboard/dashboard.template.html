@@ -1,4 +1,13 @@
 <main>
     <h1>Bienvenido a tu Dashboard</h1>
-    <button (click)="refreshToken()">Enviar a refresh/token</button>
+    <button (click)="showDataUser()">Mostrar información del usuario</button>
+    <div>
+        @if (userInformation !== null) {
+            <p>Nombre: {{userInformation.nombre_usuario}}</p>
+            <p>Apellidos: {{userInformation.apellidos_usuario}}</p>
+            <p>Correo: {{userInformation.correo_usuario}}</p>
+        } @else {
+            <p class="errorMessage">No hay información del usuario</p>
+        }
+    </div>
 </main>

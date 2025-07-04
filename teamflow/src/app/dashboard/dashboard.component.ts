@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
-import { AuthService } from "../../services/auth.service";
+import { DashboardService } from "../../services/dashboard.service";
+import { DataUserResponse } from "./interfaces/dataUser.dto";
 
 @Component({
     selector: 'dashboard-component',
@@ -7,9 +8,18 @@ import { AuthService } from "../../services/auth.service";
     styleUrl: './dashboard.styles.css',
 })
 export class DashboardComponent {
-    constructor(private auth: AuthService) {}
+    userInformation: DataUserResponse | null = null;
+    constructor(private dashboardService: DashboardService) { }
 
-    refreshToken() {
-        // this.auth.refreshTokenPeticion();
-    }
+    showDataUser() {
+        this.dashboardService.getDataUser()
+            .subscribe({
+                next: res => {
+                    this.userInformation = res
+                },
+                error: err => {
+                    throw err
+                }
+            });
+    };
 };
